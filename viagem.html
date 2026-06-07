@@ -53,6 +53,7 @@ cursor:pointer;
 }
 
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -76,11 +77,76 @@ id="km"
 type="number"
 placeholder="KM Inicial">
 
-<button>
+<button onclick="iniciarViagem()">
 INICIAR VIAGEM
 </button>
 
 </div>
+<script>
 
+const SUPABASE_URL =
+'https://pwjcoprqjdwawjsgsyaj.supabase.co'
+
+const SUPABASE_KEY =
+'sb_publishable_il1WqAWKnYUOjrdazzgZMQ_Y-EmxHHQ'
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+)
+
+async function iniciarViagem(){
+
+const cidade =
+document.getElementById('cidade').value
+
+const placa =
+document.getElementById('placa').value
+
+const km =
+document.getElementById('km').value
+
+const {
+data:{user}
+}
+=
+await supabaseClient.auth.getUser()
+
+if(!user){
+
+alert('Faça login novamente')
+return
+
+}
+
+const { error } =
+await supabaseClient
+.from('viagens')
+.insert([{
+
+"CIDADE": cidade,
+"PLACA DO CARRO": placa,
+"KM INICIAL": Number(km),
+"STATUS": "EM ANDAMENTO",
+usuario_id: user.id
+
+}])
+
+if(error){
+
+alert(error.message)
+return
+
+}
+
+alert('Viagem criada com sucesso!')
+
+window.location.href =
+'dashboard.html'
+
+}
+
+</script>
 </body>
 </html>
