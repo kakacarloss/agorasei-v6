@@ -83,7 +83,9 @@ lista.innerHTML=''
 data.forEach(v=>{
 
 lista.innerHTML += `
-<div class="card">
+<div class="card"
+onclick="abrirViagem('${v.id}')"
+style="cursor:pointer">
 
 <b>Cidade:</b>
 ${v["CIDADE"] || ""}
@@ -104,7 +106,17 @@ ${v["STATUS"] || ""}
 })
 
 }
+function abrirViagem(id){
 
+localStorage.setItem(
+'viagem_id',
+id
+)
+
+window.location.href =
+'prestacao.html'
+
+}
 carregar()
 
 </script>
