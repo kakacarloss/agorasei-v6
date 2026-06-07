@@ -87,7 +87,7 @@ font-weight:bold;
 
 <input type="password" placeholder="Senha">
 
-<button>
+<button onclick="login()">
 Entrar
 </button>
 
@@ -111,6 +111,36 @@ supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 )
+
+</script>
+<script>
+
+async function login(){
+
+const email =
+document.querySelector('input[type="email"]').value
+
+const senha =
+document.querySelector('input[type="password"]').value
+
+const { data, error } =
+await supabaseClient.auth.signInWithPassword({
+
+email: email,
+password: senha
+
+})
+
+if(error){
+
+alert(error.message)
+return
+
+}
+
+alert('Login realizado com sucesso!')
+
+}
 
 </script>
 </body>
